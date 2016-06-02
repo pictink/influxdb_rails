@@ -13,6 +13,11 @@ We encourage you to submit a pull request if you have a contribution. Maintained
 
 Auotmatically instrument your Ruby on Rails applications and write the metrics directly into [InfluxDB](http://influxdb.org/).
 
+Credits
+-------
+This is a cloned version of https://github.com/influxdata/influxdb-rails.
+All credits goes to the original developer.
+
 Install
 -------
 
