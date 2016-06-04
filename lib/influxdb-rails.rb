@@ -55,7 +55,7 @@ module InfluxDB
           exception_presenter = ExceptionPresenter.new(e, env)
           log :info, "Exception: #{exception_presenter.to_json[0..512]}..."
 
-          client.write_point "rails.exceptions",
+          client.write_point configuration.series_name_for_controller_runtimes,
             exception_presenter.context.merge(exception_presenter.dimensions)
 
         rescue => e
