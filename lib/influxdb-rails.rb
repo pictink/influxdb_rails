@@ -55,18 +55,17 @@ module InfluxDB
           exception_presenter = ExceptionPresenter.new(e, env)
           # log :info, "Exception: #{exception_presenter.to_json[0..512]}..."
           logger.info "Exception: #{exception_presenter.to_json[0..512]}..."
-          hostname = Socket.gethostname
 
-          # client.write_point configuration.series_name_for_controller_runtimes,
-          #   exception_presenter.context.merge(exception_presenter.dimensions)
-          client.write_point configuration.series_name_for_exception_runtimes, {
-          values: {
-              value: exception_presenter,
-            },
-          tags: {
-              server: hostname,
-            },
-          }
+          client.write_point configuration.series_name_for_controller_runtimes,
+            exception_presenter.context.merge(exception_presenter.dimensions)
+          # client.write_point configuration.series_name_for_exception_runtimes, {
+          # values: {
+          #     value: exception_presenter,
+          #   },
+          # tags: {
+          #     server: hostname,
+          #   },
+          # }
 
         rescue => e
           log :info, "[InfluxDB::Rails] Something went terribly wrong. Exception failed to take off! #{e.class}: #{e.message}"
