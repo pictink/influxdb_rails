@@ -53,7 +53,8 @@ module InfluxDB
         begin
           env = influxdb_request_data if env.empty? && defined? influxdb_request_data
           exception_presenter = ExceptionPresenter.new(e, env)
-          log :info, "Exception: #{exception_presenter.to_json[0..512]}..."
+          # log :info, "Exception: #{exception_presenter.to_json[0..512]}..."
+          logger.info "Exception: #{exception_presenter.to_json[0..512]}..."
           hostname = Socket.gethostname
 
           # client.write_point configuration.series_name_for_controller_runtimes,
