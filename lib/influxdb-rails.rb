@@ -57,47 +57,20 @@ module InfluxDB
           log :info, "Exception: #{exception_presenter.to_json[0..512]}..."
 
           client.write_point configuration.series_name_for_exception_runtimes, {
+            values: {
+              value: 0,
+            },
             tags: {
-              method: payload.method,
-              server: payload.server,
-              message: payload.message,
+              method: payload[:method],
+              server: payload[:server],
+              message: payload[:message].rstrip,
             },
           }
           
-        # rescue => e
-        #   log :info, "[InfluxDB::Rails] Something went terribly wrong. Exception failed to take off! #{e.class}: #{e.message}"
+        rescue => e
+          log :info, "[InfluxDB::Rails] Something went terribly wrong. Exception failed to take off! #{e.class}: #{e.message}"
         end
       end
-
-
-      # def report_exception(e, env = {})
-      #   begin
-      #     env = influxdb_request_data if env.empty? && defined? influxdb_request_data
-      #     exception_presenter = ExceptionPresenter.new(e, env)
-      #     log :info, "Exception: #{exception_presenter.to_json[0..512]}..."
-
-      #     client.write_point configuration.series_name_for_exception_runtimes, 
-      #       exception_presenter.context.merge(exception_presenter.dimensions)
-          
-
-      #   rescue => e
-      #     log :info, "[InfluxDB::Rails] Something went terribly wrong. Exception failed to take off! #{e.class}: #{e.message}"
-      #   end
-      # end
-
-      # def report_exception(e, env = {})
-      #   begin
-      #     env = influxdb_request_data if env.empty? && defined? influxdb_request_data
-      #     exception_presenter = ExceptionPresenter.new(e, env)
-      #     puts exception_presenter
-      #     log :info, "Exception: #{exception_presenter.to_json[0..512]}..."
-
-      #     client.write_point "rails.exceptions",
-      #       exception_presenter.context.merge(exception_presenter.dimensions)
-      #   rescue => e
-      #     log :info, "[InfluxDB::Rails] Something went terribly wrong. Exception failed to take off! #{e.class}: #{e.message}"
-      #   end
-      # end
 
       alias_method :transmit, :report_exception
 
