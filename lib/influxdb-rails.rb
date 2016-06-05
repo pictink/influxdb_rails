@@ -64,8 +64,8 @@ module InfluxDB
             },
           }
           
-        rescue => e
-          log :info, "[InfluxDB::Rails] Something went terribly wrong. Exception failed to take off! #{e.class}: #{e.message}"
+        # rescue => e
+        #   log :info, "[InfluxDB::Rails] Something went terribly wrong. Exception failed to take off! #{e.class}: #{e.message}"
         end
       end
 
