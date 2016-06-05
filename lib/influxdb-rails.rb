@@ -53,7 +53,7 @@ module InfluxDB
         begin
           env = influxdb_request_data if env.empty? && defined? influxdb_request_data
           exception_presenter = ExceptionPresenter.new(e, env)
-          logger.info exception_presenter
+          puts exception_presenter
           log :info, "Exception: #{exception_presenter.to_json[0..512]}..."
 
           client.write_point "rails.exceptions",
