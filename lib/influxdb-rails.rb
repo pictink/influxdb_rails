@@ -49,14 +49,14 @@ module InfluxDB
       end
       alias_method :transmit_unless_ignorable, :report_exception_unless_ignorable
 
-      
+
       def report_exception(e, env = {})
         begin
           env = influxdb_request_data if env.empty? && defined? influxdb_request_data
           exception_presenter = ExceptionPresenter.new(e, env)
           log :info, "Exception: #{exception_presenter.to_json[0..512]}..."
 
-          client.write_point configuration.series_name_for_exception_runtimes,
+          client.write_point configuration.series_name_for_exception_runtimes.rstrip,
             exception_presenter.context.merge(exception_presenter.dimensions)
 
         rescue => e
